@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -30,12 +31,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             SayHelloTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    SayHello()
+                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                    SayHello(Modifier.padding(innerPadding))
                 }
             }
         }
@@ -43,11 +40,11 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun SayHello() {
+fun SayHello(modifier: Modifier = Modifier) {
     var name by remember { mutableStateOf("") }
-    var result by remember { mutableStateOf("") }
+    var message by remember { mutableStateOf("") }
 
-    Column(modifier = Modifier.padding(10.dp)) {
+    Column(modifier = modifier) {
         Text("Say Hello", style = MaterialTheme.typography.headlineLarge)
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -57,15 +54,14 @@ fun SayHello() {
             OutlinedTextField(
                 value = name,
                 onValueChange = { name = it },
-                //modifier = Modifier.fillMaxWidth(),
                 label = { Text("Enter your name") }
             )
             Button(
-                onClick = { result = name.ifEmpty { "nobody" } }) {
+                onClick = { message = name.ifEmpty { "nobody" } }) {
                 Text("Say Hello")
             }
         }
-        Text(text = "Hello $result!")
+        Text(text = "Hello $message!")
     }
 }
 
@@ -73,7 +69,6 @@ fun SayHello() {
 @Composable
 fun GreetingPreview() {
     SayHelloTheme {
-        // Greeting("Android")
         SayHello()
     }
 }
