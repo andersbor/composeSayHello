@@ -39,6 +39,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+// Phone must be open (not screen locked) to run the test
 @Composable
 fun SayHello(modifier: Modifier = Modifier) {
     var name by remember { mutableStateOf("") }
